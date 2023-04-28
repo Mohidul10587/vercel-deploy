@@ -8,7 +8,6 @@ app.use(express.json());
 app.use(cors())
 
 
-
 // jUWk8Fjxf3UAqusZ
 const uri = 'mongodb+srv://mohid10587:jUWk8Fjxf3UAqusZ@cluster0.aqkhuox.mongodb.net/?retryWrites=true&w=majority'
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
