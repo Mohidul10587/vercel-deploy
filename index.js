@@ -2,9 +2,6 @@ const express = require('express')
 const jwt = require('jsonwebtoken')
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const cors = require('cors');
-require('dotenv').config()
-const moment = require("moment")
-const multer = require("multer");
 const app = express()
 const port = process.env.PORT || 5000
 app.use(express.json());
@@ -22,13 +19,11 @@ async function run() {
         const productsCollection = client.db('ayshi').collection('products');
 
 
-
         app.post("/addProduct", async (req, res) => {
             const product = req.body
             const result = await productsCollection.insertOne(product)
             console.log(result)
         });
-
 
 
         app.get('/getProduct', async (req, res) => {
@@ -37,8 +32,6 @@ async function run() {
 
             res.send(result)
         })
-
-
 
 
     } finally {
