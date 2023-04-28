@@ -33,6 +33,20 @@ async function run() {
         })
 
 
+        app.get('/productDetails/:productId', async (req, res) => {
+            const productId = req.params.productId;
+            const result = await productsCollection.findOne({ _id:new ObjectId(productId) });
+          
+            if (result) {
+              // Product found
+              res.status(200).json(result);
+            } else {
+              // Product not found
+              res.status(404).json({ message: `Product with id ${productId} not found` });
+            }
+          });
+          
+
     } finally {
 
     }
