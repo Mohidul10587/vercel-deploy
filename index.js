@@ -133,7 +133,7 @@ async function run() {
         });
 
 
-        app.get("/cartProducts/:email", async (req, res) => {
+        app.get("/cartProducts/:email",authenticateToken, async (req, res) => {
 
             const email = req.params.email
             try {
@@ -170,7 +170,7 @@ async function run() {
 
 
         // get ordered products
-        app.get('/orderedProducts', async (req, res) => {
+        app.get('/orderedProducts',authenticateToken, async (req, res) => {
             try {
                 // Retrieve all orders from the "orders" collection
                 const orders = await ordersCollection.find().toArray();
@@ -290,7 +290,7 @@ async function run() {
 
 
         //   get all users
-        app.get('/users', async (req, res) => {
+        app.get('/users', authenticateToken,async (req, res) => {
 
             try {
                 const users = await usersCollection.find({}).toArray();
