@@ -45,15 +45,15 @@ async function run() {
 
         app.post("/addProduct", async (req, res) => {
             try {
-              const product = req.body;
-              const result = await productsCollection.insertOne(product);
-              res.status(200).json({ message: "Product added successfully"});
+                const product = req.body;
+                const result = await productsCollection.insertOne(product);
+                res.status(200).json({ message: "Product added successfully" });
             } catch (err) {
-              console.error(err);
-              res.status(500).json({ error: "Server error" });
+                console.error(err);
+                res.status(500).json({ error: "Server error" });
             }
-          });
-          
+        });
+
 
         app.get('/getProduct', async (req, res) => {
 
@@ -74,7 +74,7 @@ async function run() {
                 const productId = req.params.productId;
 
                 // Check if the product exists
-                const product = await productsCollection.findOne({ _id:new ObjectId(productId) });
+                const product = await productsCollection.findOne({ _id: new ObjectId(productId) });
                 if (!product) {
                     return res.status(404).json({ message: 'Product not found' });
                 }
@@ -91,7 +91,7 @@ async function run() {
 
         app.get('/productByFlavour/:flavour', async (req, res) => {
             const flavour = req.params.flavour;
-            const result = await productsCollection.find({ flavorName:flavour}).toArray();
+            const result = await productsCollection.find({ flavorName: flavour }).toArray();
 
             if (result) {
                 // Product found
@@ -133,7 +133,7 @@ async function run() {
         });
 
 
-        app.get("/cartProducts/:email",authenticateToken, async (req, res) => {
+        app.get("/cartProducts/:email", authenticateToken, async (req, res) => {
 
             const email = req.params.email
             try {
@@ -152,13 +152,13 @@ async function run() {
 
         // Insert the data into the "orders" collection
         app.post('/orderedProducts', async (req, res) => {
-            console.log('first')
+        
             try {
                 const data = req.body;
 
                 // Insert the data into the "orders" collection
                 const result = await ordersCollection.insertOne(data);
-                console.log(result)
+            
                 // Send a success response
                 res.status(200).json({ message: 'Order placed successfully' });
             } catch (error) {
@@ -170,7 +170,7 @@ async function run() {
 
 
         // get ordered products
-        app.get('/orderedProducts',authenticateToken, async (req, res) => {
+        app.get('/orderedProducts', authenticateToken, async (req, res) => {
             try {
                 // Retrieve all orders from the "orders" collection
                 const orders = await ordersCollection.find().toArray();
@@ -284,17 +284,29 @@ async function run() {
             }
         });
 
+        // delete a user 
 
-
-
+        app.delete('/deleteUser/:id', async (req, res) => {
+          
+            const { id } = req.params;
+           
+            try {
+              
+                const result = await usersCollection.deleteOne({ _id: new ObjectId(id) });
+                console.log(result)
+                res.send({ message: 'User deleted successfully', result });
+            } catch (err) {
+                res.status(500).send({ message: 'Something went wrong' });
+            }
+        });
 
 
         //   get all users
-        app.get('/users', authenticateToken,async (req, res) => {
+        app.get('/users', authenticateToken, async (req, res) => {
 
             try {
                 const users = await usersCollection.find({}).toArray();
-                console.log(users)
+                
                 res.json(users);
             } catch (err) {
                 console.error(err);
