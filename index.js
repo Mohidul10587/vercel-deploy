@@ -103,6 +103,25 @@ async function run() {
         });
 
 
+
+
+
+        app.get('/cakeType/:category', async (req, res) => {
+            const category = req.params.category;
+            const result = await productsCollection.find({ categoryName: category }).toArray();
+
+            if (result) {
+                // Product found
+                res.status(200).json(result);
+            } else {
+                // Product not found
+                res.status(404).json({ message: `Product  not found` });
+            }
+        });
+
+
+
+
         app.get('/productDetails/:productId', async (req, res) => {
             const productId = req.params.productId;
             const result = await productsCollection.findOne({ _id: new ObjectId(productId) });
